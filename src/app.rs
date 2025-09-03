@@ -1,4 +1,5 @@
-use slint::{Timer};
+use std::time::{Instant, Duration};
+use slint::Timer;
 use crate::MainWindow;
 
 pub const POMODORO_DURATION_SECS: i32 = 25 * 60;
@@ -35,7 +36,8 @@ impl PomodoroState {
 
 pub struct AppState {
     state: PomodoroState,
-    pomodoro_cycles: i32
+    pomodoro_cycles: i32,
+    last_tick_time: Option<Instant>
 }
 
 
@@ -43,7 +45,8 @@ impl AppState {
     pub fn new() -> Self {
         Self {
             state: PomodoroState::Work,
-            pomodoro_cycles: 0
+            pomodoro_cycles: 0,
+            last_tick_time: None
         }
     }
 
@@ -51,21 +54,36 @@ impl AppState {
         timer.stop();
         ui.set_timer_active(false);
         ui.set_remaining_seconds(self.state.get_duration());
+        self.last_tick_time = None;
     }
 
     pub fn skip_state(&mut self, ui: &MainWindow, timer: &Timer) {
         timer.stop();
         ui.set_timer_active(false);
         self.next_state_and_update_ui(ui);
+        self.last_tick_time = None;
     }
 
     pub fn tick(&mut self, ui: &MainWindow, timer: &Timer) {
-        let remaining = ui.get_remaining_seconds();
-        if remaining > 0 {
-            ui.set_remaining_seconds(remaining - 1);
+        let now = Instant::now();
+        let mut remaining = ui.get_remaining_seconds();
+
+        if let Some(last_tick) = self.last_tick_time {
+            let elapsed_secs = now.duration_since(last_tick).as_secs() as i32;
+            remaining -= elapsed_secs;
+
+            if remaining <= 0 {
+                self.skip_state(ui, timer);
+                return;
+            }
+
+            ui.set_remaining_seconds(remaining);
         } else {
-            self.skip_state(ui, timer);
+            remaining -= 1;
+            ui.set_remaining_seconds(remaining);
         }
+
+        self.last_tick_time = Some(now);
     }
 
     fn next_state_and_update_ui(&mut self, ui: &MainWindow) {

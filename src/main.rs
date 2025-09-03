@@ -1,9 +1,9 @@
 #![windows_subsystem = "windows"]  // Preventing console open on windows
 
-use slint::{Timer, TimerMode};
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::time::Duration;
+use slint::{Timer, TimerMode};
 
 mod app;
 use app::AppState;
@@ -44,13 +44,12 @@ fn main() -> Result<(), slint::PlatformError> {
 
             timer_for_start_pause.start(
                 TimerMode::Repeated, 
-                Duration::from_secs(1),
+                Duration::from_secs(1), 
                 move || {
                     app_state_for_tick
                         .borrow_mut()
                         .tick(&ui_handle_for_tick.unwrap(), &timer_for_tick);
-                } 
-            );
+                });
         }
     });
 
