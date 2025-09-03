@@ -23,7 +23,6 @@ jobs:
                   release_name: Release ${{ github.ref }}
                   draft: false
                   prerelease: false
-
     build-and-upload:
         name: Build and Upload
         needs: create-release
