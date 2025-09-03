@@ -1,0 +1,17 @@
+[package]
+name = "PomodoroTimer"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+slint = "1.12.1"
+
+[build-dependencies]
+slint-build = "1.12.1"
+
+[profile.release]
+strip = true      # Deletes debug symbols from the binary
+opt-level = "z"   # Optimize for size
+lto = true        # Enables Link-Time Optimization (optimization at linking stage)
+codegen-units = 1 # Less amount of compilation units for more optimization
+panic = "abort" 

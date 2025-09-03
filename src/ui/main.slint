@@ -1,0 +1,59 @@
+import { Button, VerticalBox, HorizontalBox } from "std-widgets.slint";
+
+
+export component MainWindow inherits Window {
+    title: "Pomodoro Timer";
+    width: 320px;
+    height: 240px;
+
+    in-out property <int> remaining_seconds: 25 * 60;
+    in-out property <bool> timer_active: false;
+    in-out property <string> current_state_text: "Work";
+
+    callback start_pause_clicked();
+    callback reset_clicked();
+    callback skip_clicked();
+
+    VerticalBox {
+        spacing: 10px;
+        padding: 10px;
+
+        Text {
+            text: root.current_state_text;
+            horizontal-alignment: center;
+            font-size: 24px;
+            color: #fefefe;
+        }
+
+        Text {
+            text: 
+                Math.floor(root.remaining_seconds / 60) + ":" 
+                + (Math.mod(root.remaining_seconds, 60) < 10 ? "0" : "") 
+                + Math.mod(root.remaining_seconds, 60);
+            horizontal-alignment: center;
+            font-size: 50px;
+            font-weight: 700;
+            color: #fefefe;
+        }
+
+        HorizontalBox {
+            alignment: center;
+            spacing: 10px;
+
+            Button {
+                text: root.timer_active ? "Pause" : "Start";
+                clicked => { root.start_pause_clicked() }
+            }
+
+            Button {
+                text: "Reset";
+                clicked => { root.reset_clicked() }
+            }
+
+            Button {
+                text: "Skip";
+                clicked => { root.skip_clicked() }
+            }
+        }
+    }
+}

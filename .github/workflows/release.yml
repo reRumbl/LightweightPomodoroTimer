@@ -1,0 +1,77 @@
+name: Release
+
+on:
+    push:
+        tags:
+            - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+    create-release:
+        name: Create Release
+        runs-on: ubuntu-latest
+        outputs:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+        steps:
+            - uses: actions/checkout@v3
+            - name: Create Release
+              id: create_release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: ${{ github.ref }}
+                  release_name: Release ${{ github.ref }}
+                  draft: false
+                  prerelease: false
+
+build-and-upload:
+    name: Build and Upload
+    needs: create-release
+    strategy:
+        matrix:
+            include:
+                - os: ubuntu-latest
+                  asset_name: LightweightPomodoroTimer-linux-x86_64.tar.gz
+                  command: |
+                    strip target/release/PomodoroTimer
+                    tar -czvf LightweightPomodoroTimer-linux.tar.gz -C target/release PomodoroTimer
+                - os: windows-latest
+                  asset_name: LightweightPomodoroTimer-windows-x86_64.zip
+                  command: |
+                    strip target/release/PomodoroTimer.exe
+                    7z a LightweightPomodoroTimer-windows.zip ./target/release/PomodoroTimer.exe
+                - os: macos-latest
+                  asset_name: LightweightPomodoroTimer-macos-x86_64.zip
+                  command: |
+                    strip target/release/PomodoroTimer
+                    zip LightweightPomodoroTimer-macos.zip target/release/PomodoroTimer
+    runs-on: ${{ matrix.os }}
+    steps:
+        - uses: actions/checkout@v3
+        - uses: actions-rs/toolchain@v1
+          with:
+            toolchain: stable
+            profile: minimal
+        
+        - name: Install Linux dependencies
+          if: matrix.os == 'ubuntu-latest'
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y libfontconfig1-dev libgtk-3-dev
+
+        - name: Build
+          run: cargo build --release --locked
+
+        - name: Package
+          run: ${{ matrix.command }}
+          shell: bash
+
+        - name: Upload Release Asset
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ needs.create-release.outputs.upload_url }}
+            asset_path: ./${{ matrix.asset_name }}
+            asset_name: ${{ matrix.asset_name }}
+            asset_content_type: application/octet-stream
