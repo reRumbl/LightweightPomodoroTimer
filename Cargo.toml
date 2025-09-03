@@ -1,13 +1,13 @@
 [package]
 name = "PomodoroTimer"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 
 [dependencies]
-slint = "1.12.1"
+slint = { version="1.13.0", features = ["renderer-femtovg-wgpu"]}
 
 [build-dependencies]
-slint-build = "1.12.1"
+slint-build = "1.13.0"
 
 [profile.release]
 strip = true      # Deletes debug symbols from the binary

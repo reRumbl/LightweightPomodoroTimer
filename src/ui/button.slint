@@ -1,0 +1,57 @@
+export component Button inherits Rectangle {
+    in-out property text <=> txt.text;
+    in-out property <color> background_default: #6c616c;
+    in-out property <color> background_pressed:  #456;
+    in-out property <color> background_hover: #6b8282;
+    callback clicked <=> touch.clicked;
+
+    border-radius: root.height / 2;
+    border-width: 1px;
+    border-color: root.background.darker(25%);
+    background: 
+        touch.pressed 
+        ?  background_pressed
+        : touch.has-hover 
+        ? background_hover
+        : background_default;
+
+    height: txt.preferred-height * 1.33;
+    min-width: txt.preferred-width + 20px;
+
+    txt := Text {
+        x: (parent.width - self.width)/2 + (touch.pressed ? 2px : 0);
+        y: (parent.height - self.height)/2 + (touch.pressed ? 1px : 0);
+        color: touch.pressed ? #fff : #eee;
+    }
+    touch := TouchArea { }
+}
+
+export component IconButton inherits Rectangle {
+    in-out property <image> icon;
+    in-out property <color> background_default: #6c616c;
+    in-out property <color> background_pressed:  #456;
+    in-out property <color> background_hover: #6b8282;
+    callback clicked <=> touch.clicked;
+
+    border-radius: 20px;
+    border-width: 1px;
+    border-color: root.background.darker(25%);
+    background: 
+        touch.pressed 
+        ?  background_pressed
+        : touch.has-hover 
+        ? background_hover
+        : background_default;
+
+    height: 64px;
+    width: 64px;
+    
+    icon_img := Image {
+        source: root.icon;
+        x: (parent.width - self.width) / 2;
+        y: (parent.height - self.height) / 2;
+        width: 32px;
+        height: 32px;
+    }
+    touch := TouchArea { }
+}

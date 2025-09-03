@@ -8,11 +8,11 @@ This application is fully cross-platform and is automatically built for Windows,
 
 ## Features
 
--   Standard Pomodoro cycles: Work, Short Break, and Long Break.
--   Start, pause, and reset the timer.
--   Skip the current session to move to the next one.
--   Clean, minimalist user interface.
--   Low memory and CPU usage, especially in the release build.
+- Standard Pomodoro cycles: Work, Short Break, and Long Break.
+- Start, pause, and reset the timer.
+- Skip the current session to move to the next one.
+- Clean, minimalist user interface.
+- Low memory and CPU usage, especially in the release build.
 
 ## Downloading the Application
 
@@ -25,25 +25,29 @@ The easiest way to get the application is to download a pre-built version for yo
 
 If you prefer to build the application yourself, you'll need to have the Rust toolchain installed.
 
-1.  **Clone the repository:**
+1. **Clone the repository:**
+
     ```bash
     git clone https://github.com/reRumbl/LightweightPomodoroTimer.git
     cd LightweightPomodoroTimer
     ```
 
-2.  **Install dependencies (for Linux only):**
+2. **Install dependencies (for Linux only):**
+
     ```bash
     sudo apt-get update && sudo apt-get install -y libfontconfig1-dev libgtk-3-dev
     ```
 
-3.  **Build and run the application:**
+3. **Build and run the application:**
 
     For a quick debug build:
+
     ```bash
     cargo run
     ```
 
     For a fully optimized release build (recommended for regular use):
+
     ```bash
     cargo run --release
     ```

@@ -1,4 +1,5 @@
-#![windows_subsystem = "windows"]
+#![windows_subsystem = "windows"]  // Preventing console open on windows
+
 use slint::{Timer, TimerMode};
 use std::cell::RefCell;
 use std::rc::Rc;

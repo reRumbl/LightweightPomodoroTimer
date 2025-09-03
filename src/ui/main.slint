@@ -1,10 +1,15 @@
-import { Button, VerticalBox, HorizontalBox } from "std-widgets.slint";
+import { VerticalBox, HorizontalBox } from "std-widgets.slint";
+import { IconButton } from "./button.slint";
+import "./assets/fonts/Roboto-Regular.ttf";
 
 
 export component MainWindow inherits Window {
     title: "Pomodoro Timer";
-    width: 320px;
+    width: 340px;
     height: 240px;
+    background: #2d2d2d;
+    icon: @image-url("./assets/icons/app.svg");
+    default-font-family: "Roboto";
 
     in-out property <int> remaining_seconds: 25 * 60;
     in-out property <bool> timer_active: false;
@@ -17,12 +22,21 @@ export component MainWindow inherits Window {
     VerticalBox {
         spacing: 10px;
         padding: 10px;
+            
+        Rectangle {
+            width: 100%;
+            height: 50px;
+            background: #424242;
+            border-radius: 20px;
+            border-width: 1px;
+            border-color: #333333;
 
-        Text {
-            text: root.current_state_text;
-            horizontal-alignment: center;
-            font-size: 24px;
-            color: #fefefe;
+            Text {
+                text: root.current_state_text;
+                horizontal-alignment: center;
+                font-size: 24px;
+                color: #fefefe;
+            }
         }
 
         Text {
@@ -40,18 +54,30 @@ export component MainWindow inherits Window {
             alignment: center;
             spacing: 10px;
 
-            Button {
-                text: root.timer_active ? "Pause" : "Start";
+            IconButton {
+                icon: 
+                    root.timer_active 
+                    ? @image-url("./assets/icons/pause.svg") 
+                    : @image-url("./assets/icons/play.svg");
+                background_default: #e54f4f;
+                background_pressed: #e28f8f;
+                background_hover: #e86e6e;
                 clicked => { root.start_pause_clicked() }
             }
 
-            Button {
-                text: "Reset";
+            IconButton {
+                icon: @image-url("./assets/icons/reset.svg");
+                background_default: #4fabf6;
+                background_pressed: #91c7f4;
+                background_hover: #72bcf9;
                 clicked => { root.reset_clicked() }
             }
 
-            Button {
-                text: "Skip";
+            IconButton {
+                icon: @image-url("./assets/icons/skip.svg");
+                background_default: #4fc055;
+                background_pressed: #9ac99c;
+                background_hover: #74c678;
                 clicked => { root.skip_clicked() }
             }
         }
