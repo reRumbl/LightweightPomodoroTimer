@@ -36,17 +36,17 @@ jobs:
                       asset_name: PomodoroTimer-linux-x86_64.tar.gz
                       command: |
                         strip target/release/PomodoroTimer
-                        tar -czvf PomodoroTimer-linux.tar.gz -C target/release PomodoroTimer
+                        tar -czvf PomodoroTimer-linux-x86_64.tar.gz -C target/release PomodoroTimer
                     - os: windows-latest
                       asset_name: PomodoroTimer-windows-x86_64.zip
                       command: |
                         strip target/release/PomodoroTimer.exe
-                        zip PomodoroTimer-windows.zip ./target/release/PomodoroTimer.exe
+                        zip PomodoroTimer-windows-x86_64.zip ./target/release/PomodoroTimer.exe
                     - os: macos-latest
                       asset_name: PomodoroTimer-macos-x86_64.zip
                       command: |
                         strip target/release/PomodoroTimer
-                        zip PomodoroTimer-macos.zip target/release/PomodoroTimer
+                        zip PomodoroTimer-macos-x86_64.zip target/release/PomodoroTimer
         runs-on: ${{ matrix.os }}
         steps:
             - uses: actions/checkout@v3
