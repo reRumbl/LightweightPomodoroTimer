@@ -78,5 +78,7 @@ fn main() -> Result<(), slint::PlatformError> {
             .skip_state(&ui_handle_for_skip.unwrap(), &timer_for_skip);
     });
 
+    print!("penis");
+
     ui.run()
 }
