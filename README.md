@@ -1,6 +1,7 @@
 # Pomodoro Timer
 
-![Pomodoro Timer Screenshot]()
+![Pomodoro Timer Screenshot](<img width="402" height="336" alt="изображение" src="https://github.com/user-attachments/assets/730796fe-5779-4e83-8c07-071ea9c31102" />
+)
 
 A simple, beautiful, and resource-efficient Pomodoro timer built with Rust and the [Slint](https://slint-ui.com/) UI toolkit.
 
