@@ -1,3 +1,4 @@
+#![windows_subsystem = "windows"]
 use slint::{Timer, TimerMode};
 use std::cell::RefCell;
 use std::rc::Rc;
