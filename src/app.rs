@@ -1,4 +1,4 @@
-use std::time::{Instant, Duration};
+use std::time::Instant;
 use slint::Timer;
 use crate::MainWindow;
 
