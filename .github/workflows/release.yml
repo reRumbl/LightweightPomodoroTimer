@@ -41,7 +41,7 @@ jobs:
                       asset_name: PomodoroTimer-windows-x86_64.zip
                       command: |
                         strip target/release/PomodoroTimer.exe
-                        zip PomodoroTimer-windows-x86_64.zip ./target/release/PomodoroTimer.exe
+                        7z a PomodoroTimer-windows-x86_64.zip ./target/release/PomodoroTimer.exe
                     - os: macos-latest
                       asset_name: PomodoroTimer-macos-x86_64.zip
                       command: |
