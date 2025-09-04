@@ -7,7 +7,7 @@ use slint::{Timer, TimerMode};
 
 mod app;
 use app::AppState;
-use app::POMODORO_DURATION_SECS;
+use app::POMODORO_DURATION_MS;
 
 slint::include_modules!();
 
@@ -21,7 +21,7 @@ fn main() -> Result<(), slint::PlatformError> {
     let app_state = Rc::new(RefCell::new(AppState::new()));
 
     // Init ui with default values
-    ui.set_remaining_seconds(POMODORO_DURATION_SECS);
+    ui.set_remaining_seconds(POMODORO_DURATION_MS / 1000);
     ui.set_current_state_text("Work".into());
 
     // Pointers for Start/Pause button
@@ -44,7 +44,7 @@ fn main() -> Result<(), slint::PlatformError> {
 
             timer_for_start_pause.start(
                 TimerMode::Repeated, 
-                Duration::from_secs(1), 
+                Duration::from_millis(100), 
                 move || {
                     app_state_for_tick
                         .borrow_mut()
